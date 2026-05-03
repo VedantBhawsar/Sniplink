@@ -1,7 +1,10 @@
 # Build stage
-FROM oven/bun:1.2.1 AS builder
+FROM node:22-alpine AS builder
 
 WORKDIR /app
+
+# Install bun
+RUN npm install -g bun
 
 # Copy monorepo files
 COPY package.json bun.lock turbo.json ./
@@ -11,7 +14,7 @@ COPY apps/web ./apps/web
 RUN bun install
 
 # Build the web app
-RUN cd apps/web && bun run build
+RUN cd apps/web && npm run build
 
 # Runtime stage - use nginx to serve static files
 FROM nginx:alpine

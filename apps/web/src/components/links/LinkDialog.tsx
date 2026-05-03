@@ -293,7 +293,7 @@ export function LinkDialog({ open, onClose, editTarget }: LinkDialogProps) {
             </div>
             <div className="flex">
               <span className="flex items-center px-3 text-xs text-muted-foreground bg-muted border border-r-0 border-border rounded-l-md font-mono">
-                snip.ly/
+                Sniplink/
               </span>
               <Input
                 placeholder="my-link"

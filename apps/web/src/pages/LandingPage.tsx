@@ -107,7 +107,7 @@ const STATS = [
 
 const TESTIMONIALS = [
   {
-    quote: 'snip.ly cut our link management chaos by 80%. The analytics alone are worth it.',
+    quote: 'Sniplink cut our link management chaos by 80%. The analytics alone are worth it.',
     author: 'Sarah K.',
     role: 'Marketing Lead',
     avatar: 'SK',
@@ -1118,7 +1118,7 @@ export function LandingPage() {
                 fontSize: '0.93rem',
               }}
             >
-              Join thousands of users who trust snip.ly to manage and track their links.
+              Join thousands of users who trust Sniplink to manage and track their links.
             </p>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, justifyContent: 'center' }}>
               <button
@@ -1168,7 +1168,7 @@ export function LandingPage() {
               <span
                 style={{ fontWeight: 800, fontSize: '0.88rem', color: 'rgba(240,238,255,0.5)' }}
               >
-                snip.ly
+                Sniplink
               </span>
             </div>
 
@@ -1195,7 +1195,7 @@ export function LandingPage() {
             </div>
 
             <p style={{ fontSize: '0.74rem', color: 'rgba(240,238,255,0.18)' }}>
-              © {new Date().getFullYear()} snip.ly. All rights reserved.
+              © {new Date().getFullYear()} Sniplink. All rights reserved.
             </p>
           </footer>
         </div>

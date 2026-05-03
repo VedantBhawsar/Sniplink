@@ -94,7 +94,7 @@ export function Sidebar() {
           <Link2 className="w-4 h-4 text-sidebar-primary-foreground" strokeWidth={2.5} />
         </div>
         <span className="hidden lg:block text-base font-bold tracking-tight text-sidebar-foreground font-mono">
-          snip.ly
+          Sniplink
         </span>
       </NavLink>
 

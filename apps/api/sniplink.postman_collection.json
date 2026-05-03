@@ -1,8 +1,8 @@
 {
   "info": {
-    "name": "URL Shortener API",
-    "_postman_id": "url-shortener-api-v1",
-    "description": "API collection for the URL Shortener service. Base URL: http://localhost:3000/api/v1\n\nAuthentication: Protected routes require a Bearer token in the Authorization header.\n1. Register or Login to get an accessToken.\n2. Set the `accessToken` variable (or pass it manually) on protected requests.",
+    "name": "Sniplink API",
+    "_postman_id": "sniplink-api-v1",
+    "description": "API collection for the Sniplink service. Base URL: http://localhost:3000/api/v1\n\nAuthentication: Protected routes require a Bearer token in the Authorization header.\n1. Register or Login to get an accessToken.\n2. Set the `accessToken` variable (or pass it manually) on protected requests.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "variable": [

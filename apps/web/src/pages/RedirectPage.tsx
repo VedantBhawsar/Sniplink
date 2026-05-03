@@ -237,7 +237,7 @@ export function RedirectPage() {
             <Link2 className="w-3.5 h-3.5 text-white" strokeWidth={2.5} />
           </div>
           <span className="text-sm font-bold tracking-tight text-white font-mono">
-            snip.ly
+            Sniplink
           </span>
         </div>
         <div className="flex items-center gap-1.5 text-xs text-zinc-500">
@@ -332,7 +332,7 @@ export function RedirectPage() {
           {/* Safety note */}
           {isReady && (
             <p className="text-center text-[11px] text-zinc-600 mt-4 leading-relaxed">
-              This link was shortened with snip.ly. We checked it is safe to visit.
+              This link was shortened with Sniplink. We checked it is safe to visit.
               <br />
               Always verify the destination before entering personal information.
             </p>
@@ -344,7 +344,7 @@ export function RedirectPage() {
       <footer className="relative z-10 px-6 py-4 border-t border-zinc-800/60 flex items-center justify-center">
         <p className="text-[11px] text-zinc-700">
           Powered by{" "}
-          <span className="text-zinc-500 font-mono font-semibold">snip.ly</span>
+          <span className="text-zinc-500 font-mono font-semibold">Sniplink</span>
           {" · "}
           <a
             href="/dashboard/links"

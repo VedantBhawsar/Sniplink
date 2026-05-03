@@ -62,7 +62,7 @@ function LogoMark() {
         <Link2 className="w-4 h-4 text-primary-foreground" strokeWidth={2.5} />
       </div>
       <span className="text-xl font-bold tracking-tight text-foreground font-mono">
-        snip.ly
+        Sniplink
       </span>
     </div>
   );

@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: url-shortener-api
+    name: sniplink-api
     runtime: node
     plan: standard
     buildCommand: cd apps/api && bun install && bun run build

@@ -138,7 +138,7 @@ export function PricingPage() {
           <div className="w-7 h-7 rounded-lg bg-primary flex items-center justify-center">
             <Link2 className="w-3.5 h-3.5 text-primary-foreground" strokeWidth={2.5} />
           </div>
-          snip.ly
+          Sniplink
         </button>
         <div className="flex items-center gap-3">
           {isAuthenticated ? (

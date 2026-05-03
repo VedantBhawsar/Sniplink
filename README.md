@@ -145,7 +145,7 @@ Horizontal scaling: each API instance is stateless (sessions are in cookies + DB
 ## Project Structure
 
 ```
-url-shortener/
+sniplink/
 ├── apps/
 │   ├── api/                    # Express.js API (Bun)
 │   │   ├── prisma/             # Schema + migrations

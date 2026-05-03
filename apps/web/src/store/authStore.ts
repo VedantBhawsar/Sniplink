@@ -35,7 +35,7 @@ export const useAuthStore = create<AuthState>()(
       setHasHydrated: (value) => set({ _hasHydrated: value }),
     }),
     {
-      name: "url-shortener-auth",
+      name: "sniplink-auth",
       storage: createJSONStorage(() => localStorage),
 
       // Only persist the login flag — _hasHydrated is always runtime-only

@@ -1,5 +1,5 @@
 {
-  "name": "turbo-monorepo",
+  "name": "sniplink",
   "private": true,
   "workspaces": ["apps/*", "packages/*"],
   "packageManager": "bun@1.1.0",

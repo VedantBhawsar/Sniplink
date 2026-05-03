@@ -4,10 +4,10 @@ const options = {
   definition: {
     openapi: '3.0.0',
     info: {
-      title: 'URL Shortener API',
+      title: 'Sniplink API',
       version: '1.0.0',
       description:
-        'Production-ready URL shortener API with analytics, rate limiting, and expiry support.',
+        'Production-ready Sniplink API with analytics, rate limiting, and expiry support.',
       contact: {
         name: 'API Support',
         url: 'https://github.com/your-repo',

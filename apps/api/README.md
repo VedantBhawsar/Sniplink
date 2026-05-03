@@ -1,6 +1,6 @@
-# URL-Shortener Backend
+# Sniplink API Backend
 
-A production-ready URL shortener service built with Node.js/Bun, Express.js, PostgreSQL, and Redis. This backend provides a RESTful API for creating, managing, and tracking shortened URLs with comprehensive analytics.
+A production-ready Sniplink service built with Node.js/Bun, Express.js, PostgreSQL, and Redis. This backend provides a RESTful API for creating, managing, and tracking shortened URLs with comprehensive analytics.
 
 ## Table of Contents
 
@@ -111,7 +111,7 @@ Analytics stored in database
 ## Project Structure
 
 ```
-url-shortener/
+sniplink/
 ├── src/
 │   ├── config/              # Configuration & constants
 │   │   ├── constant.ts      # Environment variables validation
@@ -666,7 +666,7 @@ Assumed characteristics:
 
 ## Additional Resources
 
-- **API Testing:** See `url-shortener.postman_collection.json` for Postman collection
+- **API Testing:** See `sniplink.postman_collection.json` for Postman collection
 - **Prisma Docs:** https://www.prisma.io/docs
 - **Express Docs:** https://expressjs.com
 - **Bun Docs:** https://bun.sh/docs

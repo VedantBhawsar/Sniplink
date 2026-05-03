@@ -46,7 +46,7 @@ function LogoMark() {
       <div className="w-9 h-9 rounded-xl bg-indigo-500 flex items-center justify-center shadow-lg shadow-indigo-500/30">
         <Link2 className="w-4.5 h-4.5 text-white" strokeWidth={2.5} />
       </div>
-      <span className="text-xl font-bold tracking-tight text-white font-mono">snip.ly</span>
+      <span className="text-xl font-bold tracking-tight text-white font-mono">Sniplink</span>
     </div>
   );
 }

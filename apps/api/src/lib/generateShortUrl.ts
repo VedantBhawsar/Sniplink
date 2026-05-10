@@ -1,10 +1,10 @@
-import Bun from 'bun';
+import { createHash } from 'crypto';
 import { base64url } from 'jose';
 import { shortLinkRepository } from '../repositories/shortLinkRepository';
 
 export function generateShortLink(originalUrl: string): string {
   // SHA256 hash as Uint8Array
-  const hash = Bun.CryptoHasher.hash('sha256', originalUrl);
+  const hash = createHash('sha256').update(originalUrl).digest();
 
   // take first 6 bytes (48 bits entropy)
   const shortBytes = hash.slice(0, 6);

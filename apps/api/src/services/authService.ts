@@ -1,4 +1,4 @@
-import Bun from 'bun';
+import bcrypt from 'bcrypt';
 import { SignJWT, jwtVerify } from 'jose';
 import type { User } from '../../generated/prisma/client';
 import type { Result } from '../types/result';
@@ -39,10 +39,7 @@ export const authService = {
       const existing = await userRepository.findByEmail(payload.email);
       if (existing) return { data: null, error: 'Email already in use' };
 
-      const hashedPassword = await Bun.password.hash(payload.password, {
-        algorithm: 'bcrypt',
-        cost: 10,
-      });
+      const hashedPassword = await bcrypt.hash(payload.password, 10);
 
       const user = await userRepository.create({ ...payload, password: hashedPassword });
 
@@ -59,7 +56,7 @@ export const authService = {
       const user = await userRepository.findByEmail(email);
       if (!user) return { data: null, error: 'Invalid credentials' };
 
-      const valid = await Bun.password.verify(password, user.password);
+      const valid = await bcrypt.compare(password, user.password);
       if (!valid) return { data: null, error: 'Invalid credentials' };
 
       const tokens = await authService._issueTokenPair(user.id, user.email);

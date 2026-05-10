@@ -8,7 +8,6 @@
     "jsx": "react-jsx",
     "allowJs": true,
     "esModuleInterop": true,
-    "ignoreDeprecations": "6.0",
     // CommonJS runtime mode so dist output resolves without .js extension in package scope
     "moduleResolution": "node",
     "allowImportingTsExtensions": false,

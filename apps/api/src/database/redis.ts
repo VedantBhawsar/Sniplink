@@ -19,12 +19,13 @@ client.on('close', () => {
   _connected = false;
 });
 
-// Open the TCP connection asynchronously.
+// Open the TCP connection asynchronously — don't crash if it fails.
+// The app works with or without Redis (fallback cache handles missing Redis).
 (async () => {
   try {
     await client.connect();
   } catch (error) {
-    console.error('[Redis] Failed to connect:', error);
+    console.warn('[Redis] Failed to connect — running without Redis cache:', error instanceof Error ? error.message : error);
   }
 })();
 

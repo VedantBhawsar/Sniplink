@@ -12,7 +12,8 @@
     "format:check": "prettier --check .",
     "lint": "oxlint --config oxlint.json .",
     "prebuild": "prisma generate",
-    "build": "tsc --project tsconfig.json --outDir dist --noEmit false"
+    "build": "tsc --project tsconfig.json --outDir dist --noEmit false",
+    "postbuild": "prisma migrate deploy"
   },
   "lint-staged": {
     "*.{ts,tsx,js,jsx}": [

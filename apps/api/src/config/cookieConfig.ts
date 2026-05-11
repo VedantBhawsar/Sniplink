@@ -11,7 +11,11 @@ import type { CookieOptions } from 'express';
  *   '.onrender.com' causes browsers to reject the cookie outright.
  */
 
-const isProduction = process.env.NODE_ENV === 'production';
+// Use SECURE_COOKIES=true to enable SameSite=None + Secure cookies for
+// cross-origin requests (e.g. localhost frontend ↔ Render backend) without
+// having to set NODE_ENV=production. Falls back to NODE_ENV check.
+const isSecure =
+  process.env.SECURE_COOKIES === 'true' || process.env.NODE_ENV === 'production';
 
 /**
  * Secure cookie options for access token
@@ -22,8 +26,8 @@ const isProduction = process.env.NODE_ENV === 'production';
  */
 export const accessTokenCookieOptions: CookieOptions = {
   httpOnly: true,
-  secure: isProduction,       // Must be true when sameSite is 'none'
-  sameSite: isProduction ? 'none' : 'lax',  // 'none' for cross-origin prod, 'lax' for local dev
+  secure: isSecure,       // Must be true when sameSite is 'none'
+  sameSite: isSecure ? 'none' : 'lax',  // 'none' for cross-origin, 'lax' for local dev
   path: '/api',
   maxAge: 15 * 60 * 1000,    // 15 minutes
   // domain intentionally omitted — let the browser use the response origin
@@ -36,8 +40,8 @@ export const accessTokenCookieOptions: CookieOptions = {
  */
 export const refreshTokenCookieOptions: CookieOptions = {
   httpOnly: true,
-  secure: isProduction,
-  sameSite: isProduction ? 'none' : 'lax',
+  secure: isSecure,
+  sameSite: isSecure ? 'none' : 'lax',
   path: '/api/v1/auth/refresh',
   maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
   // domain intentionally omitted
@@ -56,16 +60,16 @@ export const COOKIE_NAMES = {
  */
 export const clearCookieOptions: CookieOptions = {
   httpOnly: true,
-  secure: isProduction,
-  sameSite: isProduction ? 'none' : 'lax',
+  secure: isSecure,
+  sameSite: isSecure ? 'none' : 'lax',
   path: '/api',
   // domain intentionally omitted
 };
 
 export const clearRefreshCookieOptions: CookieOptions = {
   httpOnly: true,
-  secure: isProduction,
-  sameSite: isProduction ? 'none' : 'lax',
+  secure: isSecure,
+  sameSite: isSecure ? 'none' : 'lax',
   path: '/api/v1/auth/refresh',
   // domain intentionally omitted
 };

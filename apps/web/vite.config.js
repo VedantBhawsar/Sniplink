@@ -8,9 +8,12 @@ export default defineConfig({
   plugins: [react(), 
     tailwindcss()
   ],
-   resolve: {
+  resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
     },
+  },
+  preview: {
+    allowedHosts: ["sniplink-1.onrender.com"],
   },
 })

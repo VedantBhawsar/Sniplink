@@ -1,37 +1,32 @@
 import type { CookieOptions } from 'express';
 
 /**
- * Cookie configuration for secure, HttpOnly cookies
- * Works across subdomains using domain-based configuration
+ * Cookie configuration for secure, HttpOnly cookies.
+ *
+ * Cross-origin setup (e.g. localhost frontend + Render backend):
+ * - sameSite must be 'none' so the browser sends the cookie on cross-site requests.
+ *   'strict' / 'lax' silently drop the cookie when origin !== backend domain.
+ * - secure must be true whenever sameSite is 'none' (browser requirement).
+ * - domain must NOT be set — setting it to a public-suffix domain like
+ *   '.onrender.com' causes browsers to reject the cookie outright.
  */
 
 const isProduction = process.env.NODE_ENV === 'production';
-const baseUrl = process.env.BASE_URL || 'localhost';
-
-// Extract domain for subdomain support (e.g., 'example.com' from 'api.example.com')
-const getDomain = (): string => {
-  if (isProduction) {
-    const parts = baseUrl.split('.');
-    // Keep last 2 parts for domain (e.g., 'example.com' from 'api.example.com')
-    return parts.length > 1 ? '.' + parts.slice(-2).join('.') : baseUrl;
-  }
-  return undefined as any; // localhost doesn't use domain
-};
 
 /**
  * Secure cookie options for access token
  * - HttpOnly: Prevents JavaScript access, protects against XSS
- * - Secure: Only sent over HTTPS (production)
- * - SameSite: Prevents CSRF attacks
- * - Path: Accessible from API routes only
+ * - Secure: Only sent over HTTPS
+ * - SameSite 'none': Required for cross-site requests (localhost ↔ Render)
+ * - Path: Scoped to API routes
  */
 export const accessTokenCookieOptions: CookieOptions = {
   httpOnly: true,
-  secure: isProduction,
-  sameSite: 'strict',
+  secure: isProduction,       // Must be true when sameSite is 'none'
+  sameSite: isProduction ? 'none' : 'lax',  // 'none' for cross-origin prod, 'lax' for local dev
   path: '/api',
-  maxAge: 15 * 60 * 1000, // 15 minutes
-  domain: getDomain(),
+  maxAge: 15 * 60 * 1000,    // 15 minutes
+  // domain intentionally omitted — let the browser use the response origin
 };
 
 /**
@@ -42,10 +37,10 @@ export const accessTokenCookieOptions: CookieOptions = {
 export const refreshTokenCookieOptions: CookieOptions = {
   httpOnly: true,
   secure: isProduction,
-  sameSite: 'strict',
+  sameSite: isProduction ? 'none' : 'lax',
   path: '/api/v1/auth/refresh',
   maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-  domain: getDomain(),
+  // domain intentionally omitted
 };
 
 /**
@@ -61,12 +56,16 @@ export const COOKIE_NAMES = {
  */
 export const clearCookieOptions: CookieOptions = {
   httpOnly: true,
+  secure: isProduction,
+  sameSite: isProduction ? 'none' : 'lax',
   path: '/api',
-  domain: getDomain(),
+  // domain intentionally omitted
 };
 
 export const clearRefreshCookieOptions: CookieOptions = {
   httpOnly: true,
+  secure: isProduction,
+  sameSite: isProduction ? 'none' : 'lax',
   path: '/api/v1/auth/refresh',
-  domain: getDomain(),
+  // domain intentionally omitted
 };

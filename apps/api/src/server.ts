@@ -28,9 +28,22 @@ if (process.env.TRUST_PROXY) {
 // The /webhook route inside uses express.raw() for raw Buffer parsing.
 // verification will always fail.
 
+// CORS_ORIGIN may be a comma-separated list of allowed origins so you can
+// whitelist both a deployed frontend and localhost at the same time.
+// e.g. CORS_ORIGIN="https://yourapp.vercel.app,http://localhost:5173"
+const allowedOrigins: string[] = (process.env.CORS_ORIGIN ?? 'http://localhost:5173')
+  .split(',')
+  .map((o) => o.trim())
+  .filter(Boolean);
+
 app.use(
   cors({
-    origin: process.env.CORS_ORIGIN || 'http://localhost:5173',
+    origin: (origin, callback) => {
+      // Allow requests with no origin (e.g. curl, Postman, server-to-server)
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.includes(origin)) return callback(null, true);
+      callback(new Error(`CORS: origin "${origin}" is not allowed`));
+    },
     credentials: true,
   }),
 );

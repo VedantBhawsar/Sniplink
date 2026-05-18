@@ -7,7 +7,7 @@ import {
   clearRefreshCookieOptions,
   COOKIE_NAMES,
 } from '../config/cookieConfig';
-import { userLoginSchema, userRegisterSchema } from '../validations/user.schema';
+import { userLoginSchema, userRegisterSchema, forgotPasswordSchema, resetPasswordSchema } from '../validations/user.schema';
 
 export const authController = {
   register: async (req: Request, res: Response): Promise<void> => {
@@ -64,6 +64,27 @@ export const authController = {
       res.cookie(COOKIE_NAMES.REFRESH_TOKEN, result.data.refreshToken, refreshTokenCookieOptions);
       res.status(200).json({ data: { message: 'Token refreshed successfully' } });
     }
+  },
+
+  forgotPassword: async (req: Request, res: Response): Promise<void> => {
+    const { email } = forgotPasswordSchema.parse(req.body);
+    const result = await authService.forgotPassword(email);
+    if (result.error) {
+      res.status(500).json({ error: result.error });
+      return;
+    }
+    // Always 200 — don't reveal whether the email exists
+    res.status(200).json({ data: { message: 'If an account with that email exists, a reset link has been sent.' } });
+  },
+
+  resetPassword: async (req: Request, res: Response): Promise<void> => {
+    const { token, password } = resetPasswordSchema.parse(req.body);
+    const result = await authService.resetPassword(token, password);
+    if (result.error) {
+      res.status(400).json({ error: result.error });
+      return;
+    }
+    res.status(200).json({ data: { message: 'Password updated successfully. Please sign in.' } });
   },
 
   logout: async (req: Request, res: Response): Promise<void> => {

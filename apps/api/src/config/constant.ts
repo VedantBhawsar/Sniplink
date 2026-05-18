@@ -19,3 +19,7 @@ export const STRIPE_SECRET_KEY = requireEnv('STRIPE_SECRET_KEY');
 export const STRIPE_WEBHOOK_SECRET = requireEnv('STRIPE_WEBHOOK_SECRET');
 // STRIPE_PREMIUM_PRICE_ID is read directly in plans.ts (optional at startup)
 export const CLIENT_URL = process.env['CLIENT_URL'] ?? 'http://localhost:5173';
+
+// ─── Email ────────────────────────────────────────────────────────────────────
+export const RESEND_API_KEY = requireEnv('RESEND_API_KEY');
+export const EMAIL_FROM = process.env['EMAIL_FROM'] ?? 'Sniplink <noreply@sniplink.dev>';

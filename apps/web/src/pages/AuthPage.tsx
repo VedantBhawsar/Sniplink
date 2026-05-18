@@ -111,15 +111,29 @@ function LoginForm() {
             onChange={setEmail}
             disabled={login.isPending}
           />
-          <Field
-            id="password"
-            label="Password"
-            type="password"
-            placeholder="••••••••"
-            value={password}
-            onChange={setPassword}
-            disabled={login.isPending}
-          />
+          <div className="space-y-1.5">
+            <div className="flex items-center justify-between">
+              <Label htmlFor="login-password" className="text-sm font-medium text-foreground">
+                Password
+              </Label>
+              <Link
+                to="/forgot-password"
+                className="text-xs text-muted-foreground hover:text-primary transition-colors"
+                tabIndex={-1}
+              >
+                Forgot password?
+              </Link>
+            </div>
+            <Input
+              id="login-password"
+              type="password"
+              placeholder="••••••••"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              disabled={login.isPending}
+              className="h-10"
+            />
+          </div>
           <Button
             type="submit"
             disabled={login.isPending || !email || !password}

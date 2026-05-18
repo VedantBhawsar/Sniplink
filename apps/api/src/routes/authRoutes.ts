@@ -121,3 +121,14 @@ authRouter.post('/refresh', authController.refresh);
  *         description: Logout successful
  */
 authRouter.post('/logout', authController.logout);
+
+const forgotPasswordRateLimiter = createRateLimiter({
+  name: 'auth:forgot-password',
+  windowMs: 15 * 60 * 1000,
+  max: 3,
+  keyGenerator: rateLimitKeys.ip,
+  message: 'Too many password reset requests. Please try again later.',
+});
+
+authRouter.post('/forgot-password', forgotPasswordRateLimiter, authController.forgotPassword);
+authRouter.post('/reset-password', authController.resetPassword);

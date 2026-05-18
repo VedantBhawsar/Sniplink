@@ -1,5 +1,5 @@
 import { prisma } from '../database';
-import type { RefreshToken } from '../../generated/prisma/client';
+import type { RefreshToken, PasswordResetToken } from '../../generated/prisma/client';
 
 export const authRepository = {
   createRefreshToken: async (data: {
@@ -20,5 +20,29 @@ export const authRepository = {
 
   deleteAllUserRefreshTokens: async (userId: string): Promise<void> => {
     await prisma.refreshToken.deleteMany({ where: { userId } });
+  },
+
+  // ─── Password Reset ──────────────────────────────────────────────────────────
+
+  createPasswordResetToken: async (data: {
+    token: string;
+    userId: string;
+    expiresAt: Date;
+  }): Promise<PasswordResetToken> => {
+    return prisma.passwordResetToken.create({ data });
+  },
+
+  findPasswordResetToken: async (token: string): Promise<PasswordResetToken | null> => {
+    return prisma.passwordResetToken.findUnique({ where: { token } });
+  },
+
+  markPasswordResetTokenUsed: async (token: string): Promise<void> => {
+    await prisma.passwordResetToken.update({ where: { token }, data: { used: true } });
+  },
+
+  deleteExpiredPasswordResetTokens: async (userId: string): Promise<void> => {
+    await prisma.passwordResetToken.deleteMany({
+      where: { userId, OR: [{ expiresAt: { lt: new Date() } }, { used: true }] },
+    });
   },
 };

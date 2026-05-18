@@ -1,11 +1,13 @@
 import bcrypt from 'bcrypt';
 import { SignJWT, jwtVerify } from 'jose';
+import { randomBytes } from 'crypto';
 import type { User } from '../../generated/prisma/client';
 import type { Result } from '../types/result';
 import type { TokenPair, AccessTokenPayload } from '../types/auth';
 import { userRepository } from '../repositories/userRepository';
 import { authRepository } from '../repositories/authRepository';
 import { JWT_SECRET, JWT_REFRESH_SECRET } from '../config/constant';
+import { sendPasswordResetEmail } from '../lib/email';
 
 const ACCESS_TOKEN_TTL = '15m';
 const REFRESH_TOKEN_TTL_MS = 7 * 24 * 60 * 60 * 1000; // 7 days
@@ -119,6 +121,51 @@ export const authService = {
       return { data: { sub, email }, error: null };
     } catch {
       return { data: null, error: 'Invalid or expired access token' };
+    }
+  },
+
+  forgotPassword: async (email: string): Promise<Result<null>> => {
+    try {
+      const user = await userRepository.findByEmail(email);
+      // Always return success to avoid leaking whether an email exists
+      if (!user) return { data: null, error: null };
+
+      // Clean up old tokens before issuing a new one
+      await authRepository.deleteExpiredPasswordResetTokens(user.id);
+
+      const token = randomBytes(32).toString('hex');
+      const expiresAt = new Date(Date.now() + 60 * 60 * 1000); // 1 hour
+
+      await authRepository.createPasswordResetToken({ token, userId: user.id, expiresAt });
+      await sendPasswordResetEmail(user.email, user.name, token);
+
+      return { data: null, error: null };
+    } catch (error) {
+      console.error('authService.forgotPassword:', error);
+      return { data: null, error: 'Failed to send reset email' };
+    }
+  },
+
+  resetPassword: async (token: string, newPassword: string): Promise<Result<null>> => {
+    try {
+      const record = await authRepository.findPasswordResetToken(token);
+
+      if (!record) return { data: null, error: 'Invalid or expired reset link' };
+      if (record.used) return { data: null, error: 'Reset link has already been used' };
+      if (record.expiresAt < new Date()) return { data: null, error: 'Reset link has expired' };
+
+      const hashedPassword = await bcrypt.hash(newPassword, 10);
+      await Promise.all([
+        userRepository.update(record.userId, { password: hashedPassword }),
+        authRepository.markPasswordResetTokenUsed(token),
+        // Invalidate all sessions so old password can't be reused
+        authRepository.deleteAllUserRefreshTokens(record.userId),
+      ]);
+
+      return { data: null, error: null };
+    } catch (error) {
+      console.error('authService.resetPassword:', error);
+      return { data: null, error: 'Password reset failed' };
     }
   },
 

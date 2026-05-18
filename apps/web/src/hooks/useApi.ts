@@ -112,6 +112,26 @@ export function useLogin() {
   });
 }
 
+export function useForgotPassword() {
+  return useMutation({
+    mutationFn: (data: { email: string }) =>
+      apiRequest<{ data: { message: string } }>("/auth/forgot-password", {
+        method: "POST",
+        body: data,
+      }),
+  });
+}
+
+export function useResetPassword() {
+  return useMutation({
+    mutationFn: (data: { token: string; password: string }) =>
+      apiRequest<{ data: { message: string } }>("/auth/reset-password", {
+        method: "POST",
+        body: data,
+      }),
+  });
+}
+
 export function useLogout() {
   const { setLoggedIn } = useAuthStore();
   const queryClient = useQueryClient();

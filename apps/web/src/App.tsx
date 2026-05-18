@@ -18,6 +18,7 @@ import { RedirectPage } from "@/pages/RedirectPage";
 import { BillingPage } from "@/pages/BillingPage";
 import { PricingPage } from "@/pages/PricingPage";
 import { LandingPage } from "@/pages/LandingPage";
+import { ForgotPasswordPage } from "@/pages/ForgotPasswordPage";
 
 // ─── Query Client ─────────────────────────────────────────────────────────────
 
@@ -90,6 +91,8 @@ function AppRoutes() {
       <Route element={<PublicGuard />}>
         <Route path="/login" element={<AuthPage mode="login" />} />
         <Route path="/register" element={<AuthPage mode="register" />} />
+        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+        <Route path="/reset-password" element={<ForgotPasswordPage />} />
       </Route>
 
       {/* Protected: dashboard with shared sidebar layout */}
